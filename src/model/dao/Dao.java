@@ -60,7 +60,7 @@ public class Dao {
 
 public ArrayList<Asiakas> listaaAsiakkaat(String hakusana){
 	ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-	sql = "SELECT * FROM asiakkaat WHERE asiakas_id LIKE ? or etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ?";      
+	sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ?";      
 	try {
 		con=yhdista();
 		if(con!=null){ //jos yhteys onnistui

@@ -13,27 +13,22 @@
 	font-family: 'Times New Roman', Times, serif;
 	font-size: 14px;
 }
-
 label {
 	display: block;
 	width: 60px;
 	float:center;
 }
-
 input {
 	margin-bottom: 5px;
 }
-
 table {
 	border: 1px, solid black;
 	padding: 10px;
 	text-align: center;
 }
-
 tr {
 	background-color: orange;
 }
-
 td {
 	text-align: center;
 	background-color: lightblue;
@@ -64,7 +59,6 @@ td {
 	</table>
 	<script>
 		$(document).ready(function() {
-
 			haeAsiakkaat();
 			$("#hakunappi").click(function() {
 				haeAsiakkaat();
