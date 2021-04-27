@@ -60,7 +60,7 @@ public class Dao {
 
 public ArrayList<Asiakas> listaaAsiakkaat(String hakusana){
 	ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-	sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ?";      
+	sql = "SELECT * FROM asiakkaat WHERE asiakas_id LIKE ? or etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ?";      
 	try {
 		con=yhdista();
 		if(con!=null){ //jos yhteys onnistui
@@ -89,4 +89,39 @@ public ArrayList<Asiakas> listaaAsiakkaat(String hakusana){
 	}		
 	return asiakkaat;
 }
+public boolean lisaaAsiakas(Asiakas asiakas){
+	boolean paluuArvo=true;
+	sql="INSERT INTO asiakkaat(etunimi, sukunimi, puhelin, sposti) VALUES(?,?,?,?)";					  
+	try {
+		con = yhdista();
+		stmtPrep=con.prepareStatement(sql); 
+		stmtPrep.setString(1, asiakas.getEtunimi());
+		stmtPrep.setString(2, asiakas.getSukunimi());
+		stmtPrep.setString(3, asiakas.getPuhelin());
+		stmtPrep.setString(4, asiakas.getSposti());
+		stmtPrep.executeUpdate();
+        con.close();
+	} catch (Exception e) {				
+		e.printStackTrace();
+		paluuArvo=false;
+	}				
+	return paluuArvo;
 }
+
+public boolean poistaAsiakas(String Asiakas_id){ //Oikeassa el‰m‰ss‰ tiedot ensisijaisesti merkit‰‰n poistetuksi.
+	boolean paluuArvo=true;
+	sql="DELETE FROM asiakkaat WHERE Asiakas_id=?";						  
+	try {
+		con = yhdista();
+		stmtPrep=con.prepareStatement(sql); 
+		stmtPrep.setString(1, Asiakas_id);			
+		stmtPrep.executeUpdate();
+        con.close();
+	} catch (Exception e) {				
+		e.printStackTrace();
+		paluuArvo=false;
+	}				
+	return paluuArvo;
+}
+}
+
