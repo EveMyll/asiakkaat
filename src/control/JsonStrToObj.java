@@ -1,5 +1,6 @@
 package control;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -26,4 +27,3 @@ public class JsonStrToObj {
 		return jsonObject;		
 	}
 }
-
