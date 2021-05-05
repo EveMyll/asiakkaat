@@ -60,7 +60,7 @@ public class Dao {
 
 public ArrayList<Asiakas> listaaAsiakkaat(String hakusana){
 	ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-	sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ?";      
+	sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or sposti LIKE ?";      
 	try {
 		con=yhdista();
 		if(con!=null){ //jos yhteys onnistui
@@ -68,7 +68,6 @@ public ArrayList<Asiakas> listaaAsiakkaat(String hakusana){
 			stmtPrep.setString(1, "%" + hakusana + "%");
 			stmtPrep.setString(2, "%" + hakusana + "%");   
 			stmtPrep.setString(3, "%" + hakusana + "%");  
-			stmtPrep.setString(4, "%" + hakusana + "%"); 
     		rs = stmtPrep.executeQuery();   
 			if(rs!=null){ //jos kysely onnistui
 				//con.close();					
@@ -130,36 +129,31 @@ public Asiakas etsiAsiakas(int asiakas_id) {
 		con=yhdista();
 		if(con!=null){ 
 			stmtPrep = con.prepareStatement(sql); 
-			stmtPrep.setInt(1, asiakas_id);
+			stmtPrep.setInt(1, asiakas_id);	
     		rs = stmtPrep.executeQuery();  
     		if(rs.isBeforeFirst()){ //jos kysely tuotti dataa, eli rekNo on käytössä
     			rs.next();
-    			asiakas = new Asiakas();        			
-    			asiakas.setAsiakas_id(rs.getInt(1));
-				asiakas.setEtunimi(rs.getString(2));
-				asiakas.setSukunimi(rs.getString(3));
-				asiakas.setPuhelin(rs.getString(4));	
-				asiakas.setSposti(rs.getString(5));	      			      			
-			}        		
-		}	
+    			asiakas = new Asiakas(rs.getInt("asiakas_id"), rs.getString("etunimi"), rs.getString("sukunimi"), rs.getString("puhelin"), rs.getString("sposti"));       			      			
+			}        			
 		con.close();  
+		}
 	} catch (Exception e) {
 		e.printStackTrace();
 	}		
 	return asiakas;		
 }
 
-public boolean muutaAsiakas(Asiakas asiakas, int asiakas_id){
+public boolean muutaAsiakas(Asiakas asiakas){
 	boolean paluuArvo=true;
 	sql="UPDATE asiakkaat SET etunimi=?, sukunimi=?, puhelin=?, sposti=? WHERE asiakas_id=?";						  
 	try {
 		con = yhdista();
 		stmtPrep=con.prepareStatement(sql); 
-		stmtPrep.setInt(1, asiakas.getAsiakas_id());
-		stmtPrep.setString(2, asiakas.getEtunimi());
-		stmtPrep.setString(3, asiakas.getSukunimi());
-		stmtPrep.setString(4, asiakas.getPuhelin());
-		stmtPrep.setString(5, asiakas.getSposti());
+		stmtPrep.setString(1, asiakas.getEtunimi());
+		stmtPrep.setString(2, asiakas.getSukunimi());
+		stmtPrep.setString(3, asiakas.getPuhelin());
+		stmtPrep.setString(4, asiakas.getSposti());
+		stmtPrep.setInt(5, asiakas.getAsiakas_id());
 		stmtPrep.executeUpdate();
         con.close();
 	} catch (Exception e) {				
